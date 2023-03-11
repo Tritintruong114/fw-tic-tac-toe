@@ -4,11 +4,14 @@ import Board from "./Board";
 function Game() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
-  const [winner, setWinner] = useState(null);
+  const [winner, setWinner] = useState();
 
   //Declaring a Winner
   useEffect(() => {
-    "Your code here";
+    const winner = calculateWinner(squares);
+    if (winner) {
+      setWinner(winner);
+    }
   }, [squares]);
 
   //function to check if a player has won.
@@ -39,10 +42,18 @@ function Game() {
   };
 
   //Handle player
+  //this is for the X or O title for the square
   const handleClick = (i) => {
-    "Your code here";
-  };
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    } // this is for stop the game when ever 2 of this condition true.
 
+    const nextSquare = [...squares];
+    nextSquare[i] = xIsNext ? "X" : "O";
+    setSquares(nextSquare);
+    setXIsNext((prev) => !prev);
+  };
+  //
   //Restart game
   const handlRestart = () => {
     "Your code here";
@@ -50,12 +61,12 @@ function Game() {
 
   return (
     <div className="main">
-      <h2 className="result">Winner is: {winner ? winner : "N/N"}</h2>
+      <h2 className="result ">Winner is: {winner ? winner : "N/N"}</h2>
       <div className="game">
         <span className="player">Next player is: {xIsNext ? "X" : "O"}</span>
-        <Board squares={"Your code here"} handleClick={"Your code here"} />
+        <Board squares={squares} handleClick={handleClick} />
       </div>
-      <button onClick={"Your code here"} className="restart-btn">
+      <button onClick={handlRestart} className="restart-btn">
         Restart
       </button>
     </div>
